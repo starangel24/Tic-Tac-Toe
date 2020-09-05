@@ -52,7 +52,7 @@ public:
 	Postconditions: The marker is added or an exception is thrown.
 	Note: Always use in a try-catch
 	*/
-	void add_marker(const coord, const marker);
+	bool add_marker(const coord, const marker);
 	/*
 	String Representation Generator
 	Purpose: To generate a string representation of the board.
@@ -63,8 +63,8 @@ public:
 	/*
 	Win Check
 	Purpose: Determine if a player has won
-	Preconditons: Board is valid. 
-	Postconditions: Return true if the player has won and false otherwise. 
+	Preconditons: Board is valid.
+	Postconditions: Return true if the player has won and false otherwise.
 	*/
 	bool has_won(const marker) const;
 	/*
@@ -88,6 +88,7 @@ public:
 	Postconditions: The board is cleared
 	*/
 	void clear();
+
 };
 
 #endif

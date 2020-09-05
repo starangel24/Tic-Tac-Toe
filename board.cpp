@@ -2,10 +2,10 @@
 #include <sstream>
 
 board::board()
-:bd()
+    :bd()
 {
     //Make each row empty
-    for (std::array<marker, 3>& row : bd) {
+    for (std::array<marker, 3> & row : bd) {
         row = { marker::E, marker::E, marker::E };
     }
 }
@@ -20,21 +20,26 @@ const marker board::operator[](const coord index) const
         throw std::out_of_range("index out of bounds");
 }
 
-void board::add_marker(const coord index, const marker mk)
+bool board::add_marker(const coord index, const marker mk)
 {
+    
     //Validate the index
     if ((index.first <= 3 && index.first != 0) && (index.second <= 3 && index.second != 0)) {
-        //If the indicated location is empty place the marker there
+        //If the indicated location is empty place the marker there, and mark move as valid
         if (bd[index.first - 1][index.second - 1] == marker::E) {
             bd[index.first - 1][index.second - 1] = mk;
+            return true;
         }
-        //otherwise throw a runtime error
+        //otherwise mark move as invalid
         else
-            throw std::runtime_error("This location on the board is already taken");
+            return false;
+            //throw std::runtime_error("This location on the board is already taken");
     }
-    //if the index is invalid throw out of bounds
+    //if the index is out of bounds, mark move invalid
     else
-        throw std::out_of_range("The index is invalid.");
+        return false;
+        //throw std::out_of_range("The index is invalid.");
+    
 }
 
 const char mk_to_char(const marker mk)
@@ -53,7 +58,7 @@ std::string board::to_string() const
 {
     //Create a stringstream object to facilitate the creation of the board string
     std::stringstream ss;
-    
+
     /*Create the top index row*/
     ss << "  " << 1 << '|' << 2 << '|' << 3 << '\n' << "__________\n";
     /*Create each board row*/
@@ -101,16 +106,20 @@ bool board::is_full() const
 
 bool board::are_tied() const
 {
-    //if neither player has won and the board is full return true otherwise false.
+    //if neither player has won and the board is full return true otherwise false. 
     return has_won(marker::X) == false && has_won(marker::O) == false && is_full();
 }
 
 void board::clear()
 {
     //Set all positions to empty
-    for(size_t i = 0; i < 3; ++i) {
-        for(size_t j = 0; j < 3; ++j) {
+    for (size_t i = 0; i < 3; ++i) {
+        for (size_t j = 0; j < 3; ++j) {
             bd[i][j] = marker::E;
         }
     }
 }
+
+
+
+
